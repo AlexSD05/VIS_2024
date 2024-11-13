@@ -22,15 +22,14 @@ for line in fileContent:
         if(currentBlockType != ""):
             if(currentBlockType == "RIGID_BODY"):
                 listOfMbsObjects.append(mbsObject.mbsObject("body", currentTextBlock))
-
             currentBlockType = ""
 
 
-        for type_i in search4Objects:
-            if(line.find(type_i, 1, len(type_i) +1) >= 0):
-                currentBlockType = type_i
-                currentTextBlock.clear()
-        
-        currentTextBlock.append(line)
+    for type_i in search4Objects:   #Sucht nach Schlagwörtern
+        if(line.find(type_i, 1, len(type_i) +1) >= 0):
+            currentBlockType = type_i
+            currentTextBlock.clear()
+            break
+    currentTextBlock.append(line)
 
 print(len(listOfMbsObjects))
