@@ -171,6 +171,7 @@ class rigidBody(mbsObject):
         self.actor.SetUserTransform(transform)
 #------------------------------------------------------------------------------
 
+# Klasse für Constraints
 class constraint(mbsObject):
     def __init__(self,text):
         parameter = {

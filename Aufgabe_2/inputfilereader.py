@@ -44,7 +44,7 @@ def readInputFile(filePath):
         
         currentTextBlock.append(line)
 
-    print(len(listOfMbsObjects))
+    print("Number of objects = ", len(listOfMbsObjects))
 
 
     #import/export functionality (for later use in model.py)
