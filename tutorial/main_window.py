@@ -21,6 +21,10 @@ class MainWindow(QMainWindow):
 
         self.file_menu.addAction(exit_action)
 
+        #Test QAction
+        test_action = QAction("Test", self)
+        self.file_menu.addAction(test_action)
+
         # Status Bar
         self.status = self.statusBar()
         self.status.showMessage("Data loaded and plotted")
