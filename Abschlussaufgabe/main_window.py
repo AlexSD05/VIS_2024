@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from PySide6.QtCore import Slot
-from PySide6.QtGui import QAction, QKeySequence, QScreen
-from PySide6.QtWidgets import QMainWindow, QFileDialog
+from PySide6.QtGui import QAction, QKeySequence, QScreen, QColor
+from PySide6.QtWidgets import QMainWindow, QFileDialog, QColorDialog
 
 
 from main_widget import widget
@@ -21,10 +21,18 @@ class MainWindow(QMainWindow):
         # Menu Sonstiges
         self.HelpMenu = self.menu.addMenu("Sonstiges")
 
+        # Menu Settings
+        self.SettingsMenu = self.menu.addMenu("Settings")
+
+        # Background Settings
+        self.background_action = QAction("Background", self)
+        self.SettingsMenu.addAction(self.background_action)
+        self.background_action.triggered.connect(lambda: self.backgroundaction())
+
         # Help Action
-        help_action = QAction("Help", self)
-        self.HelpMenu.addAction(help_action)
-        self.HelpMenu.triggered.connect(self.helpaction)
+        self.help_action = QAction("Help", self)
+        self.HelpMenu.addAction(self.help_action)
+        self.help_action.triggered.connect(self.helpaction)
 
         #Load QAction
         load_action = QAction("Load", self)
@@ -87,3 +95,12 @@ class MainWindow(QMainWindow):
 
     def helpaction(self):
         self.status.showMessage("Mir ist nicht mehr zu helfen",3000)
+
+    def backgroundaction(self):
+        backgroundcolor = QColorDialog.getColor()   #Öffnet Farbpalette
+        
+        if backgroundcolor.isValid():
+            self.backgroundcolorRGB = backgroundcolor.red(), backgroundcolor.green(), backgroundcolor.blue()
+        
+        self.mbsModel.backgroundcolor = self.backgroundcolorRGB
+        self.widget.renderer.SetBackground([element / 255 for element in self.mbsModel.backgroundcolor])

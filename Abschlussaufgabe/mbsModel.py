@@ -11,7 +11,8 @@ import os
 class mbsModel:
     def __init__(self):
         self.__mbsObjectList = []
-    
+        self.backgroundcolor = [0,0,0]      # Definition der Standard Background Color. Global
+
     def importFddFile(self,filepath):
         file_name, file_extension = os.path.splitext(filepath)
 
@@ -51,6 +52,8 @@ class mbsModel:
             elif(modelObject["type"] == "DataObject" and modelObject["subtype"] == "Parameter"):
                 self.__mbsObjectList.append(dataobject.parameter(parameter=modelObject["parameter"]))
 
+        self.backgroundcolor = data["backgroundcolor"]
+
         return True
 
     def saveDatabase(self,dataBasePath):
@@ -62,7 +65,8 @@ class mbsModel:
                            "parameter": object.parameter}
             modelObjects.append(modelObject)
         
-        jDataBase = json.dumps({"modelObjects": modelObjects})
+        jDataBase = json.dumps({"modelObjects": modelObjects,
+                                "backgroundcolor" : self.backgroundcolor})
 
         with open(dataBasePath, "w") as outfile:
             outfile.write(jDataBase)

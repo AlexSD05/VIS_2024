@@ -39,6 +39,8 @@ class widget(QWidget):
         self.renderer = vtkRenderer()
         self.renderWindow = self.qvtkWidget.GetRenderWindow()    #Renderer Hinzufügen
         self.renderWindow.AddRenderer(self.renderer)
+        
+        self.renderer.SetBackground([element / 255 for element in mbsModel.backgroundcolor])    #VTK RGB von 0 bis 1 nicht 0 bis 255 -> Umrechnen
 
 
         # Interactor einrichten
@@ -50,7 +52,6 @@ class widget(QWidget):
 
         # Modell anzeigen
         mbsModel.showModel(self.renderer)
-
 
         # Render- und Interaktionsloop starten
         self.renderWindow.Render()
