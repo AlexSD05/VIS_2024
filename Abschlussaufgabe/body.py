@@ -16,6 +16,7 @@ class rigidBody(body):
     def __init__(self,**kwargs):
         if "text" in kwargs:
             parameter = {
+                "name": {"type": "string", "value": "UNKNOWN"},
                 "mass": {"type": "float", "value": 1.},
                 "COG": {"type": "vector", "value": [0.,0.,0.]},
                 "geometry": {"type": "filepath", "value": ""},
@@ -23,16 +24,23 @@ class rigidBody(body):
                 "x_axis": {"type": "vector", "value": [1.,0.,0.]},
                 "y_axis": {"type": "vector", "value": [0.,1.,0.]},
                 "z_axis": {"type": "vector", "value": [0.,0.,1.]},
-                "color": {"type": "colorvector", "value": [0,0,0,0]}
+                "color": {"type": "colorvector", "value": [0,0,0,0]},
+                "transparency": {"type": "float", "value": 0}       
             }
 
             body.__init__(self,"Rigid_EulerParameter_PAI",text=kwargs["text"],parameter=parameter)
             #compute rgb values in [0,1] as vtk uses rgb in this range and fdd uses [0,255]
-            self.parameter["color"]["value"] = [rgb/255 for rgb in self.parameter["color"]["value"]]
+            #elf.parameter["color"]["value"] = [rgb/255 for rgb in self.parameter["color"]["value"]]
 
         else:
             body.__init__(self,"Rigid_EulerParameter_PAI",**kwargs)
 
+        self.updateactor()
+
+
+    def updateactor(self):
+        color = [rgb/255 for rgb in self.parameter["color"]["value"]]
+        self.actors = []
         # read OBJ file (CAD graphics)
         reader = vtkOBJReader()
         reader.SetFileName(self.parameter["geometry"]["value"])  
@@ -47,7 +55,9 @@ class rigidBody(body):
         bodyActor.GetProperty().SetDiffuse(0.8)
         bodyActor.GetProperty().SetSpecular(0.3)
         bodyActor.GetProperty().SetSpecularPower(60.0)
-        bodyActor.GetProperty().SetColor(self.parameter["color"]["value"][0:3])
+        bodyActor.GetProperty().SetColor(color[0:3])
+
+        bodyActor.GetProperty().SetOpacity((255-self.parameter["transparency"]["value"])/255)
 
         transform_matrix = np.eye(4) 
         transform_matrix[:3, 0] = np.array(self.parameter["x_axis"]["value"])
