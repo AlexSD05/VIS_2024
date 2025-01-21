@@ -154,7 +154,7 @@ class MainWindow(QMainWindow):
             
             slidertransparency = QSlider(Qt.Horizontal)
             slidertransparency.setMinimum(0)
-            slidertransparency.setMinimum(100)
+            slidertransparency.setMaximum(100)
             slidertransparency.setValue(body.parameter["transparency"]["value"]/255*100)    # /255*100 weil transparenz von 0 - 255 im Ursprungsfile geht
 
             slidertransparency.valueChanged.connect(lambda value, bodyslider = body: self.updatetransparency(value, bodyslider))
