@@ -37,7 +37,7 @@ class rigidBody(body):
 
         self.updateactor()
 
-
+    # Update actor als Funktion definieren, damit wir nach dem auswählenvon Farbe und Transparenz die neuen Einstellungen darstellen
     def updateactor(self):
         color = [rgb/255 for rgb in self.parameter["color"]["value"]]
         self.actors = []

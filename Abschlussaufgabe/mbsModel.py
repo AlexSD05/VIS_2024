@@ -78,8 +78,5 @@ class mbsModel:
     def getlistofmbyObject(self):
         return self.__mbsObjectList
     
-    # def updateactors(self, mbsObject, renderer):
-    #     mbsObject.hide(renderer)
-    #     mbsObject.updateactor()
-    #     mbsObject.show(renderer)
+
     
